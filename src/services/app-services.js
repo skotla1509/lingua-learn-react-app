@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_API = `http://localhost:5000`;
+const BASE_API = `http://localhost:1000`;
 const LANGUAGES_API = `${BASE_API}/api/languages`;
 const api = axios.create({ withCredentials: true });
 

@@ -16,7 +16,7 @@ const Navigation = () => {
         <ul className="nav nav-pills">
           <li className="nav-item">
             <Link to="/">
-              <img src="../../images/logo_2.png"
+              <img src="logo.png"
                    className="rounded p-0" height="60px" width="90px"
                    alt="" />
             </Link>

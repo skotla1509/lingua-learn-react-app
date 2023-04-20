@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_API = `http://localhost:5000`;
+const BASE_API = `http://localhost:1000`;
 const USERS_API = `${BASE_API}/api/users`;
 const api = axios.create({ withCredentials: true });
 
