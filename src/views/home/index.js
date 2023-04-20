@@ -1,16 +1,26 @@
 import React from 'react';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { testThunk } from "../../thunks/users-thunks";
 
 const Home = () => {
   const dispatch = useDispatch()
+  const {currentUser} = useSelector((state) => state.users);
   useEffect(() => {
-    dispatch(testThunk());
-  }, [])
+    //
+  }, []);
+
   return (
     <>
-      <h1 className='container'>Home Page</h1>
+      {currentUser &&
+       <>
+          <h1 className='m-4 container'>Hi {currentUser.first_name}, welcome to Lingua-Learn</h1>
+       </>
+      }
+      {!currentUser &&
+       <>
+          <h1 className='m-4 container'>Please login to access Lingua-Learn</h1>
+       </>
+      }
     </>
   );
 }

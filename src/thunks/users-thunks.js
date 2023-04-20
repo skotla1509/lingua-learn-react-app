@@ -4,18 +4,18 @@ import {
 	findUserById,
 	login,
 	logout,
-	register,
-  test
+  profile,
+	register
 } from "../services/users-services";
-
-export const testThunk = createAsyncThunk(
-  'test',
-  async () => await test()
-)
 
 export const logoutThunk = createAsyncThunk(
   'logout',
   async () => await logout()
+)
+
+export const profileThunk = createAsyncThunk(
+  'profile',
+  async () => await profile()
 )
 
 export const findUserByIdThunk = createAsyncThunk(

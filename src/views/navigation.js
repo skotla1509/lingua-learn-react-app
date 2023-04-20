@@ -1,11 +1,15 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useLocation} from "react-router";
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import './index.css';
+import { logoutThunk } from "../thunks/users-thunks";
 
 const Navigation = () => {
     const {currentUser} = useSelector((state) => state.users)
     const {pathname} = useLocation()
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+  
     const parts = pathname.split('/')
     return(
       <div className="mt-4">
@@ -38,7 +42,11 @@ const Navigation = () => {
           {
             currentUser &&
             <li className="nav-item">
-              <Link to={"/logout"}
+              <Link to={"/"}
+                    onClick={() => {
+                        dispatch(logoutThunk());
+                      }
+                    }
                     className={`nav-link ${parts[1] === 'logout'?'active': ''}`}>
                 <h3>Log out</h3>
               </Link>

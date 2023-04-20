@@ -9,6 +9,7 @@ import Home from "./home/index.js";
 import Login from "./login/index.js";
 import Register from "./register/index.js";
 import usersReducer from "../reducers/users-reducer";
+import Logout from "./components/logout";
 
 const store = configureStore(
   {
@@ -28,6 +29,7 @@ function Tuiter() {
               <Route index element={<Home/>}/>
               <Route path="/login" element={<Login/>}/>
               <Route path="/register" element={<Register/>}/>
+              <Route path="/logout" element={<Logout/>}/>
             </Routes>
       </CurrentUser>
     </BrowserRouter>

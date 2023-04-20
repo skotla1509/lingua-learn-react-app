@@ -4,6 +4,7 @@ import {
   changePasswordThunk, 
   loginThunk,
   logoutThunk,
+  profileThunk,
   registerThunk
 } from "../thunks/users-thunks";
 
@@ -33,6 +34,10 @@ const usersReducer = createSlice(
       },
       [logoutThunk.fulfilled]: (state, action) => {
         state.currentUser = null;
+        state.loginSuccess = false;
+      },
+      [profileThunk.fulfilled]: (state, action) => {
+        state.currentUser = action.payload;
       },
       [registerThunk.pending]: (state, action) => {
         state.loading = true;
