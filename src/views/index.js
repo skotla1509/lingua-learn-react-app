@@ -9,12 +9,14 @@ import Home from "./home/index.js";
 import Login from "./login/index.js";
 import Register from "./register/index.js";
 import usersReducer from "../reducers/users-reducer";
-import Logout from "./components/logout";
+import appReducer from "../reducers/app-reducer";
+import Deck from "./deck/index.js";
 
 const store = configureStore(
   {
     reducer: {
-      users: usersReducer
+      users: usersReducer,
+      app: appReducer
     }
   }
 )
@@ -29,7 +31,7 @@ function Tuiter() {
               <Route index element={<Home/>}/>
               <Route path="/login" element={<Login/>}/>
               <Route path="/register" element={<Register/>}/>
-              <Route path="/logout" element={<Logout/>}/>
+              <Route path="/learn/language" element={<Deck/>}/>
             </Routes>
       </CurrentUser>
     </BrowserRouter>
