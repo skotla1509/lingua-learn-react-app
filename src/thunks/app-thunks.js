@@ -6,12 +6,23 @@ import {
 	createPostForLanguage, 
   getAllCardsForDeck,
   createPracticeHistoryForLanguage,
-  getAllPracticeQuestionsForDeck
+  getAllPracticeQuestionsForDeck,
+  checkFavoriteDeckForUser,
+  markUnmarkDeckAsFavoriteForUser,
+  getFeedbackForDeck,
+  addNewFeedbackForDeck,
+  getAverageFeedbackForDeck,
+  addLanguageLearning
 } from "../services/app-services";
 
 export const getAllLanguagesThunk = createAsyncThunk(
   'getAllLanguages',
   async () => await getAllLanguages()
+)
+
+export const addLanguageLearningThunk = createAsyncThunk(
+	'addLanguageLearning',
+	async (requestBody) => await addLanguageLearning(requestBody)
 )
 
 export const getAllDecksForLanguageThunk = createAsyncThunk(
@@ -42,4 +53,29 @@ export const getAllPracticeQuestionsForDeckThunk = createAsyncThunk(
 export const createPracticeHistoryForLanguageThunk = createAsyncThunk(
 	'createPracticeHistoryForLanguage',
 	async (requestBody) => await createPracticeHistoryForLanguage(requestBody)
+)
+
+export const markUnmarkDeckAsFavoriteForUserThunk = createAsyncThunk(
+	'markUnmarkDeckAsFavoriteForUser',
+	async (requestBody) => await markUnmarkDeckAsFavoriteForUser(requestBody)
+)
+
+export const checkFavoriteDeckForUserThunk = createAsyncThunk(
+	'checkFavoriteDeckForUser',
+	async (requestBody) => await checkFavoriteDeckForUser(requestBody)
+)
+
+export const getFeedbackForDeckThunk = createAsyncThunk(
+	'getFeedbackForDeck',
+	async (deck_id) => await getFeedbackForDeck(deck_id)
+)
+
+export const getAverageFeedbackForDeckThunk = createAsyncThunk(
+	'getAverageFeedbackForDeck',
+	async (deck_id) => await getAverageFeedbackForDeck(deck_id)
+)
+
+export const addNewFeedbackForDeckThunk = createAsyncThunk(
+	'addNewFeedbackForDeck',
+	async (requestBody) => await addNewFeedbackForDeck(requestBody)
 )

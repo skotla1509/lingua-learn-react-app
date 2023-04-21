@@ -6,13 +6,12 @@ import {
 	createPracticeHistoryForLanguageThunk,
 	getAllPracticeQuestionsForDeckThunk
 } from '../../thunks/app-thunks';
-import { setDeck } from "../../reducers/app-reducer";
 import { Container, Form, Button } from 'react-bootstrap';
 
 const Practice = () => {
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
-	const { selected_deck, questions } = useSelector((state) => state.app);
+	const { selected_deck, questions, practice } = useSelector((state) => state.app);
 	const { currentUser } = useSelector((state) => state.users);
 	useEffect(() => {
 		dispatch(getAllPracticeQuestionsForDeckThunk(selected_deck.deck_id))
@@ -30,48 +29,57 @@ const Practice = () => {
 		console.log(responses); // do something with the responses
 		let score = 0;
 		questions.map((question, index) => {
-			if (question.ans.toLowerCase() === responses[index].toLowerCase()) {
+			if (question.ans && responses[index] && question.ans.toLowerCase() === responses[index].toLowerCase()) {
 				score++
 			}
 		})
 		console.log(score)
-		dispatch(createPracticeHistoryForLanguageThunk(selected_deck.deck_id))
+		const requestBody = {
+			user_id: currentUser.user_id,
+			deck_id: selected_deck.deck_id,
+			score_received: score
+		}
+		dispatch(createPracticeHistoryForLanguageThunk(requestBody))
 	};
 
 	return (
 		<Container>
-			<Form onSubmit={handleSubmit}>
+			<Form onSubmit={handleSubmit} aria-disabled={!!practice}>
 				{questions.map((question, index) => (
-					<Form.Group key={question.que_id}>
+					<Form.Group key={`question-form-${index}`}>
 						<Form.Label>{question.text}</Form.Label>
 						{question.type === "MCQ" && (
 							<div>
 								<Form.Check
 									type="radio"
 									label={question.option1}
-									name={`question-${question.que_id}`}
-									id={`question-${question.que_id}-option1`}
+									name={`question-${index}`}
+									id={`question-${index}-option1`}
+									value={responses[index] === question.option1}
 									onChange={() => handleAnswer(index, question.option1)}
 								/>
 								<Form.Check
 									type="radio"
 									label={question.option2}
-									name={`question-${question.que_id}`}
-									id={`question-${question.que_id}-option2`}
+									name={`question-${index}`}
+									id={`question-${index}-option2`}
+									value={responses[index] === question.option2}
 									onChange={() => handleAnswer(index, question.option2)}
 								/>
 								<Form.Check
 									type="radio"
 									label={question.option3}
-									name={`question-${question.que_id}`}
-									id={`question-${question.que_id}-option3`}
+									name={`question-${index}`}
+									id={`question-${index}-option3`}
+									value={responses[index] === question.option3}
 									onChange={() => handleAnswer(index, question.option3)}
 								/>
 								<Form.Check
 									type="radio"
 									label={question.option4}
-									name={`question-${question.que_id}`}
-									id={`question-${question.que_id}-option4`}
+									name={`question-${index}`}
+									id={`question-${index}-option4`}
+									value={responses[index] === question.option4}
 									onChange={() => handleAnswer(index, question.option4)}
 								/>
 							</div>
@@ -80,6 +88,7 @@ const Practice = () => {
 							<Form.Control
 								type="text"
 								placeholder="Enter your answer"
+								value={responses[index]}
 								onChange={(e) => handleAnswer(index, e.target.value)}
 							/>
 						)}
@@ -88,15 +97,17 @@ const Practice = () => {
 								<Form.Check
 									type="radio"
 									label="True"
-									name={`question-${question.que_id}`}
-									id={`question-${question.que_id}-true`}
+									name={`question-${index}`}
+									id={`question-${index}-true`}
+									value={responses[index] === 'True'}
 									onChange={() => handleAnswer(index, "True")}
 								/>
 								<Form.Check
 									type="radio"
 									label="False"
-									name={`question-${question.que_id}`}
-									id={`question-${question.que_id}-false`}
+									name={`question-${index}`}
+									id={`question-${index}-false`}
+									value={responses[index] === 'False'}
 									onChange={() => handleAnswer(index, "False")}
 								/>
 							</div>
@@ -104,6 +115,7 @@ const Practice = () => {
 					</Form.Group>
 				))}
 				<Button type="submit">Submit</Button>
+				{practice && <h4>Your score: {practice.score_received}</h4>}
 			</Form>
 		</Container>
 	);

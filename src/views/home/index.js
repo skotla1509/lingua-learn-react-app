@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { getAllLanguagesThunk } from '../../thunks/app-thunks';
+import { addLanguageLearningThunk, getAllLanguagesThunk } from '../../thunks/app-thunks';
 import { setLanguage } from '../../reducers/app-reducer';
 
 const Home = () => {
@@ -17,8 +17,9 @@ const Home = () => {
   }, []);
 
   const onLanguageClick = (language) => {
-      dispatch(setLanguage(language))
-      navigate("/learn/language");
+    dispatch(setLanguage(language))
+    dispatch(addLanguageLearningThunk({ language_id: language.language_id, user_id: currentUser.user_id }))
+    navigate("/learn/language");
   }
 
   return (
@@ -33,21 +34,29 @@ const Home = () => {
                 {
                   languages.map((language, index) =>
                     <>
-                      <span 
-                        id={`languages-${index}`}
-                        onClick={() => onLanguageClick(language)}
-                        className="list-group-item list-group-item-action">
-                        {
-                          language.name
-                        }
-                      </span>
+                      <div className='list-group-item list-group-item-action'>
+                        <div className='row'>
+                          <div className='col-8'>
+                            <span
+                              id={`languages-${index}`}
+                              className="">
+                              {
+                                language.name
+                              }
+                            </span>
+                          </div>
+                          <div className='col-4'>
+                            <button type="button" className="btn btn-primary float-end" onClick={() => onLanguageClick(language)}>Start Learning</button>
+                          </div>
+                        </div>
+                      </div>
                     </>
                   )
                 }
               </ul>
             </div>
             <div className='ms-1 col border rounded p-4'>
-            <h5>Your journey</h5>
+              <h5>Your journey</h5>
             </div>
           </div>
         </>

@@ -8,6 +8,11 @@ export const getAllLanguages = async (uid) => {
   return response.data
 }
 
+export const addLanguageLearning = async (requestBody) => {
+  const response = await api.post(`${LANGUAGES_API}/${requestBody.language_id}/learn`, requestBody)
+  return response.data
+}
+
 export const getAllDecksForLanguage = async (uid) => {
   const response = await api.get(`${LANGUAGES_API}/decks/${uid}`)
   return response.data
@@ -35,5 +40,30 @@ export const getAllPracticeQuestionsForDeck = async (uid) => {
 
 export const createPracticeHistoryForLanguage = async (requestBody) => {
   const response = await api.post(`${LANGUAGES_API}/decks/${requestBody.deck_id}/practice`, requestBody)
-  return response.data
+  return response.data
+}
+
+export const markUnmarkDeckAsFavoriteForUser = async (requestBody) => {
+  const response = await api.post(`${LANGUAGES_API}/decks/${requestBody.deck_id}/user/${requestBody.user_id}/favorite`, {})
+  return response.data
+}
+
+export const checkFavoriteDeckForUser = async (requestBody) => {
+  const response = await api.get(`${LANGUAGES_API}/decks/${requestBody.deck_id}/user/${requestBody.user_id}/favorite`)
+  return response.data
+}
+
+export const getFeedbackForDeck = async (deck_id) => {
+  const response = await api.get(`${LANGUAGES_API}/decks/${deck_id}/feedback`)
+  return response.data
+}
+
+export const getAverageFeedbackForDeck = async (deck_id) => {
+  const response = await api.get(`${LANGUAGES_API}/decks/${deck_id}/feedback/average`)
+  return response.data
+}
+
+export const addNewFeedbackForDeck = async (requestBody) => {
+  const response = await api.post(`${LANGUAGES_API}/decks/${requestBody.deck_id}/feedback`, requestBody)
+  return response.data
 }

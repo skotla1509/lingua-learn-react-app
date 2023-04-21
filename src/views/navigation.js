@@ -17,7 +17,7 @@ const Navigation = () => {
           <li className="nav-item">
             <Link to="/">
               <img src="logo.png"
-                   className="rounded p-0" height="60px" width="90px"
+                   className="rounded p-0" height="60px" width="150px"
                    alt="" />
             </Link>
           </li>

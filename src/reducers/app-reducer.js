@@ -5,12 +5,17 @@ import {
   getAllLanguagesThunk,
   getAllPostsForLanguagesThunk,
   createPracticeHistoryForLanguageThunk,
-  getAllPracticeQuestionsForDeckThunk
+  getAllPracticeQuestionsForDeckThunk,
+  checkFavoriteDeckForUserThunk,
+  markUnmarkDeckAsFavoriteForUserThunk,
+  getFeedbackForDeckThunk,
+  getAverageFeedbackForDeckThunk,
+  addNewFeedbackForDeckThunk
 } from "../thunks/app-thunks";
 
 const appReducer = createSlice(
   {
-    name: 'users',
+    name: 'app',
     initialState: {
       languages: [],
       selected_language: null,
@@ -18,7 +23,11 @@ const appReducer = createSlice(
       decks: [],
       posts: [],
       cards: [],
-      questions: []
+      questions: [],
+      practice: null,
+      isFavorite: false,
+      feedbackList: [],
+      average_rating: 0
     },
     reducers: {
       setLanguage(state, action) {
@@ -43,13 +52,29 @@ const appReducer = createSlice(
       },
       [getAllCardsForDeckThunk.fulfilled]: (state, action) => {
         state.cards = action.payload
+        state.practice = null
       },
       [getAllPracticeQuestionsForDeckThunk.fulfilled]: (state, action) => {
         state.questions = action.payload
       },
       [createPracticeHistoryForLanguageThunk.fulfilled]: (state, action) => {
         state.practice = action.payload
-      }
+      },
+      [checkFavoriteDeckForUserThunk.fulfilled]: (state, action) => {
+        state.isFavorite = action.payload
+      },
+      [markUnmarkDeckAsFavoriteForUserThunk.fulfilled]: (state, action) => {
+        state.isFavorite = !state.isFavorite
+      },
+      [getFeedbackForDeckThunk.fulfilled]: (state, action) => {
+        state.feedbackList = action.payload
+      },
+      [addNewFeedbackForDeckThunk.fulfilled]: (state, action) => {
+        state.feedbackList.push(action.payload)
+      },
+      [getAverageFeedbackForDeckThunk.fulfilled]: (state, action) => {
+        state.average_rating = action.payload.avg_rating
+      },
     }
   }
 )
