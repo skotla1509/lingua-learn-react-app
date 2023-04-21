@@ -12,8 +12,20 @@ import {
   getFeedbackForDeck,
   addNewFeedbackForDeck,
   getAverageFeedbackForDeck,
-  addLanguageLearning
+  addLanguageLearning,
+  getUserStatistics,
+  getUserLanguages
 } from "../services/app-services";
+
+export const getUserStatisticsThunk = createAsyncThunk(
+	'getUserStatistics',
+	async (user_id) => await getUserStatistics(user_id)
+)
+
+export const getUserLanguagesThunk = createAsyncThunk(
+	'getUserLanguages',
+	async (user_id) => await getUserLanguages(user_id)
+)
 
 export const getAllLanguagesThunk = createAsyncThunk(
   'getAllLanguages',

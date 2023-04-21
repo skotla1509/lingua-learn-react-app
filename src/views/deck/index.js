@@ -25,8 +25,8 @@ const createPost = () => {
 		user_id: currentUser.user_id,
 		language_id: selected_language.language_id
 	}
-	dispatch(createPostForLanguageThunk(requestBody))
 	setPost("")
+	dispatch(createPostForLanguageThunk(requestBody))
 }
 	const onDeckClick = (deck) => {
 		dispatch(setDeck(deck))

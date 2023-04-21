@@ -10,7 +10,9 @@ import {
   markUnmarkDeckAsFavoriteForUserThunk,
   getFeedbackForDeckThunk,
   getAverageFeedbackForDeckThunk,
-  addNewFeedbackForDeckThunk
+  addNewFeedbackForDeckThunk,
+  getUserStatisticsThunk,
+  getUserLanguagesThunk
 } from "../thunks/app-thunks";
 
 const appReducer = createSlice(
@@ -27,7 +29,9 @@ const appReducer = createSlice(
       practice: null,
       isFavorite: false,
       feedbackList: [],
-      average_rating: 0
+      average_rating: 0,
+      stats: [],
+      learning_languages: []
     },
     reducers: {
       setLanguage(state, action) {
@@ -61,7 +65,7 @@ const appReducer = createSlice(
         state.practice = action.payload
       },
       [checkFavoriteDeckForUserThunk.fulfilled]: (state, action) => {
-        state.isFavorite = action.payload
+        state.isFavorite = action.payload ? true : false
       },
       [markUnmarkDeckAsFavoriteForUserThunk.fulfilled]: (state, action) => {
         state.isFavorite = !state.isFavorite
@@ -75,6 +79,12 @@ const appReducer = createSlice(
       [getAverageFeedbackForDeckThunk.fulfilled]: (state, action) => {
         state.average_rating = action.payload.avg_rating
       },
+      [getUserStatisticsThunk.fulfilled]: (state, action) => {
+        state.stats = action.payload
+      },
+      [getUserLanguagesThunk.fulfilled]: (state, action) => {
+        state.learning_languages = action.payload
+      }
     }
   }
 )

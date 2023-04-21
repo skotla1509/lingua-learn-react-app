@@ -8,6 +8,16 @@ export const getAllLanguages = async (uid) => {
   return response.data
 }
 
+export const getUserStatistics = async (uid) => {
+  const response = await api.get(`${BASE_API}/api/users/${uid}/stats`)
+  return response.data
+}
+
+export const getUserLanguages = async (uid) => {
+  const response = await api.get(`${BASE_API}/api/users/${uid}/languages`)
+  return response.data
+}
+
 export const addLanguageLearning = async (requestBody) => {
   const response = await api.post(`${LANGUAGES_API}/${requestBody.language_id}/learn`, requestBody)
   return response.data

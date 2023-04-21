@@ -10,6 +10,7 @@ import {
 	getFeedbackForDeckThunk,
 	markUnmarkDeckAsFavoriteForUserThunk
 } from '../../thunks/app-thunks';
+import { Row, Col, Card, Badge } from 'react-bootstrap';
 
 const Flashcard = () => {
 	const dispatch = useDispatch()
@@ -73,25 +74,23 @@ const Flashcard = () => {
 								</button>
 							</div>
 						</div>
-						<ul className="list-group list-group-flush">
-							{
-								cards.map((card, index) =>
-									<div className="list-group-item list-group-item-action">
-
-										<div id={`cards-title-${index}`}
-											className="d-flex w-100 justify-content-between">
-											<h5 className="mb-1">{card.front_text}</h5>
-
-										</div>
-										<p id={`cards-desc-${index}`} className="mb-1">{card.back_text}</p>
-									</div>
-								)
-							}
-						</ul>
+						<Row xs={1} md={2} lg={2}>
+							{cards.map((card, index) => (
+								<Col key={index} className="mb-4">
+									<Card>
+										<Card.Body>
+											<Card.Title>{card.front_text}</Card.Title>
+											<Card.Text>{card.back_text}</Card.Text>
+										</Card.Body>
+									</Card>
+								</Col>
+							))}
+						</Row>
 					</div>
 
 				</div>
 				<div className='row m-4 justify-content-center'>
+					<h5>Feedback</h5>
 					<div className='col-6 p-4 border rounded'>
 						{
 							currentUserFeedback &&
@@ -139,7 +138,7 @@ const Flashcard = () => {
 					</div>
 					<div className='col-6 p-4 border rounded'>
 						<div className='row'>
-							<h5>All Ratings: {average_rating ? average_rating : "No ratings yet"}</h5>
+							<h5>Average Ratings: {average_rating ? average_rating : "No ratings yet"}</h5>
 							<ul className="list-group">
 								{
 									feedbackList.map(

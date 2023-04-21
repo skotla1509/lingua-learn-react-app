@@ -2,17 +2,22 @@ import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { addLanguageLearningThunk, getAllLanguagesThunk } from '../../thunks/app-thunks';
+import { addLanguageLearningThunk, getAllLanguagesThunk, getUserLanguagesThunk, getUserStatisticsThunk } from '../../thunks/app-thunks';
 import { setLanguage } from '../../reducers/app-reducer';
+import { Row, Col, Card, Badge } from 'react-bootstrap';
+import myImage from '../../badge.jpg';
+
 
 const Home = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
-  const { languages } = useSelector((state) => state.app);
+  const { languages, stats, learning_languages } = useSelector((state) => state.app);
   const { currentUser } = useSelector((state) => state.users);
   useEffect(() => {
     if (currentUser) {
       dispatch(getAllLanguagesThunk());
+      dispatch(getUserStatisticsThunk(currentUser.user_id));
+      dispatch(getUserLanguagesThunk(currentUser.user_id));
     }
   }, []);
 
@@ -56,7 +61,38 @@ const Home = () => {
               </ul>
             </div>
             <div className='ms-1 col border rounded p-4'>
-              <h5>Your journey</h5>
+              <div className='row'>
+                <div className='col'>
+                  <h5>Languages you are learning</h5>
+                  <div className="d-flex flex-wrap">
+                    {learning_languages.map((lang, index) => (
+                      <div key={"language-learning" + index} className="m-2">
+                        <Badge variant="secondary" className='bg-info'>
+                          <img src={myImage} alt={lang.name} width="24" height="24" className="mr-1 mx-1 rounded" />
+                          {lang.name}
+                        </Badge>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className='row mt-4'>
+                <div className='col'>
+                  <h5>Your Practice History</h5>
+                  <Row xs={1} md={2} lg={2}>
+                    {stats.map((stat, index) => (
+                      <Col key={index} className="mb-4">
+                        <Card>
+                          <Card.Body>
+                            <Card.Title>{stat.language_name}</Card.Title>
+                            <Card.Text>Average Score: {stat.avg_score}</Card.Text>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    ))}
+                  </Row>
+                </div>
+              </div>
             </div>
           </div>
         </>
