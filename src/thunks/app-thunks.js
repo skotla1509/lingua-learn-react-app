@@ -3,7 +3,10 @@ import {
 	getAllDecksForLanguage,
 	getAllLanguages,
 	getAllPostsForLanguages,
-	createPostForLanguage, getAllCardsForDeck
+	createPostForLanguage, 
+  getAllCardsForDeck,
+  createPracticeHistoryForLanguage,
+  getAllPracticeQuestionsForDeck
 } from "../services/app-services";
 
 export const getAllLanguagesThunk = createAsyncThunk(
@@ -29,4 +32,14 @@ export const createPostForLanguageThunk = createAsyncThunk(
 export const getAllCardsForDeckThunk = createAsyncThunk(
 	'getAllCardsForDeck',
 	async (deck_id) => await getAllCardsForDeck(deck_id)
+)
+
+export const getAllPracticeQuestionsForDeckThunk = createAsyncThunk(
+	'getAllPracticeQuestionsForDeck',
+	async (deck_id) => await getAllPracticeQuestionsForDeck(deck_id)
+)
+
+export const createPracticeHistoryForLanguageThunk = createAsyncThunk(
+	'createPracticeHistoryForLanguage',
+	async (requestBody) => await createPracticeHistoryForLanguage(requestBody)
 )

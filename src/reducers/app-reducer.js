@@ -3,7 +3,9 @@ import {
   createPostForLanguageThunk, getAllCardsForDeckThunk,
   getAllDecksForLanguageThunk,
   getAllLanguagesThunk,
-  getAllPostsForLanguagesThunk
+  getAllPostsForLanguagesThunk,
+  createPracticeHistoryForLanguageThunk,
+  getAllPracticeQuestionsForDeckThunk
 } from "../thunks/app-thunks";
 
 const appReducer = createSlice(
@@ -15,7 +17,8 @@ const appReducer = createSlice(
       selected_deck: null,
       decks: [],
       posts: [],
-      cards: []
+      cards: [],
+      questions: []
     },
     reducers: {
       setLanguage(state, action) {
@@ -40,6 +43,12 @@ const appReducer = createSlice(
       },
       [getAllCardsForDeckThunk.fulfilled]: (state, action) => {
         state.cards = action.payload
+      },
+      [getAllPracticeQuestionsForDeckThunk.fulfilled]: (state, action) => {
+        state.questions = action.payload
+      },
+      [createPracticeHistoryForLanguageThunk.fulfilled]: (state, action) => {
+        state.practice = action.payload
       }
     }
   }
