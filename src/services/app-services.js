@@ -7,3 +7,23 @@ export const getAllLanguages = async (uid) => {
   const response = await api.get(`${LANGUAGES_API}/all`)
   return response.data
 }
+
+export const getAllDecksForLanguage = async (uid) => {
+  const response = await api.get(`${LANGUAGES_API}/decks/${uid}`)
+  return response.data
+}
+
+export const getAllPostsForLanguages = async (uid) => {
+  const response = await api.get(`${LANGUAGES_API}/posts/${uid}`)
+  return response.data
+}
+
+export const createPostForLanguage = async (requestBody) => {
+  const response = await api.post(`${LANGUAGES_API}/posts/${requestBody.language_id}/new`, requestBody)
+  return response.data
+}
+
+export const getAllCardsForDeck = async (uid) => {
+  const response = await api.get(`${LANGUAGES_API}/decks/${uid}/cards`)
+  return response.data
+}

@@ -11,6 +11,8 @@ import Register from "./register/index.js";
 import usersReducer from "../reducers/users-reducer";
 import appReducer from "../reducers/app-reducer";
 import Deck from "./deck/index.js";
+import Flashcard from "./flashcards/index.js";
+import Practice from "./practice/index.js";
 
 const store = configureStore(
   {
@@ -32,6 +34,8 @@ function Tuiter() {
               <Route path="/login" element={<Login/>}/>
               <Route path="/register" element={<Register/>}/>
               <Route path="/learn/language" element={<Deck/>}/>
+              <Route path="/learn/language/cards" element={<Flashcard/>}/>
+              <Route path="/learn/language/practice" element={<Practice/>}/>
             </Routes>
       </CurrentUser>
     </BrowserRouter>
