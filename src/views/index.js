@@ -31,6 +31,7 @@ function Tuiter() {
         <Navigation/>
             <Routes>
               <Route index element={<Home/>}/>
+              <Route path="/home" element={<Home/>}/>
               <Route path="/login" element={<Login/>}/>
               <Route path="/register" element={<Register/>}/>
               <Route path="/learn/language" element={<Deck/>}/>

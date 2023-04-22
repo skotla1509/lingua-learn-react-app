@@ -23,6 +23,11 @@ export const addLanguageLearning = async (requestBody) => {
   return response.data
 }
 
+export const endLanguageLearning = async (requestBody) => {
+  const response = await api.post(`${LANGUAGES_API}/${requestBody.language_id}/learn/end`, requestBody)
+  return response.data
+}
+
 export const getAllDecksForLanguage = async (uid) => {
   const response = await api.get(`${LANGUAGES_API}/decks/${uid}`)
   return response.data
@@ -35,6 +40,11 @@ export const getAllPostsForLanguages = async (uid) => {
 
 export const createPostForLanguage = async (requestBody) => {
   const response = await api.post(`${LANGUAGES_API}/posts/${requestBody.language_id}/new`, requestBody)
+  return response.data
+}
+
+export const deletePostForUser = async (uid) => {
+  const response = await api.delete(`${LANGUAGES_API}/posts/${uid}`)
   return response.data
 }
 

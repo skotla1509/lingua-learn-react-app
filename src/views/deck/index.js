@@ -1,36 +1,40 @@
 import React from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
 	createPostForLanguageThunk,
+	deletePostForUserThunk,
 	getAllDecksForLanguageThunk,
 	getAllPostsForLanguagesThunk
 } from '../../thunks/app-thunks';
-import {setDeck} from "../../reducers/app-reducer";
+import { setDeck } from "../../reducers/app-reducer";
 
 const Deck = () => {
-	const [post,setPost] = useState("")
+	const [post, setPost] = useState("")
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
-	const {decks, selected_language, posts} = useSelector((state) => state.app);
-	const {currentUser} = useSelector((state) => state.users);
+	const { decks, selected_language, posts } = useSelector((state) => state.app);
+	const { currentUser } = useSelector((state) => state.users);
 	useEffect(() => {
 		dispatch(getAllDecksForLanguageThunk(selected_language.language_id))
 		dispatch(getAllPostsForLanguagesThunk(selected_language.language_id))
 	}, []);
-const createPost = () => {
-	const requestBody = {
-		content: post,
-		user_id: currentUser.user_id,
-		language_id: selected_language.language_id
+	const createPost = () => {
+		const requestBody = {
+			content: post,
+			user_id: currentUser.user_id,
+			language_id: selected_language.language_id
+		}
+		setPost("")
+		dispatch(createPostForLanguageThunk(requestBody))
 	}
-	setPost("")
-	dispatch(createPostForLanguageThunk(requestBody))
-}
 	const onDeckClick = (deck) => {
 		dispatch(setDeck(deck))
 		navigate("/learn/language/cards");
+	}
+	const deletePost = (post) => {
+		dispatch(deletePostForUserThunk(post.post_id))
 	}
 
 	return (
@@ -43,17 +47,17 @@ const createPost = () => {
 						<ul className="list-group list-group-flush">
 							{
 								decks.map((deck, index) =>
-														<div className ="list-group-item list-group-item-action"
-																 onClick={() => onDeckClick(deck)}
-														>
+									<div className="list-group-item list-group-item-action"
+										onClick={() => onDeckClick(deck)}
+									>
 
-															<div id={`decks-title-${index}`}
-																	 className="d-flex w-100 justify-content-between">
-																<h5 className="mb-1">{deck.name}</h5>
+										<div id={`decks-title-${index}`}
+											className="d-flex w-100 justify-content-between">
+											<h5 className="mb-1">{deck.name}</h5>
 
-															</div>
-															<p id={`decks-desc-${index}`} className="mb-1">{deck.description}</p>
-														</div>
+										</div>
+										<p id={`decks-desc-${index}`} className="mb-1">{deck.description}</p>
+									</div>
 								)
 							}
 						</ul>
@@ -63,15 +67,15 @@ const createPost = () => {
 						<div className="mt-2 row">
 							<div className="row mt-2 mb-2">
 								<div className="col-10">
-                        <textarea
-													onChange={(e) => setPost(e.target.value)}
-													placeholder="Write new comment"
-													className="form-control">
-                        </textarea>
+									<textarea
+										onChange={(e) => setPost(e.target.value)}
+										placeholder="Write new comment"
+										className="form-control">
+									</textarea>
 								</div>
 								<div className="col-2">
 									<button className="btn btn-primary rounded"
-													onClick={createPost}>Post
+										onClick={createPost}>Post
 									</button>
 								</div>
 							</div>
@@ -80,12 +84,14 @@ const createPost = () => {
 							{
 								posts.map(
 									(item, index) =>
-										<div className ="list-group-item list-group-item-action">
-
+										<div className="list-group-item list-group-item-action">
 											<div id={`posts-title-${index}`}
-													 className="d-flex w-100 justify-content-between">
+												className="d-flex w-100 justify-content-between">
 												<h5 className="mb-1">{item.first_name}  {item.last_name}</h5>
-
+												{
+													currentUser.user_id === item.user_id && 
+													<button type="button" className="btn btn-primary float-end" onClick={() => deletePost(item)}>Delete</button>
+												}
 											</div>
 											<p id={`posts-desc-${index}`} className="mb-1">{item.content}</p>
 										</div>

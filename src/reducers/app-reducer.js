@@ -12,7 +12,9 @@ import {
   getAverageFeedbackForDeckThunk,
   addNewFeedbackForDeckThunk,
   getUserStatisticsThunk,
-  getUserLanguagesThunk
+  getUserLanguagesThunk,
+  deletePostForUserThunk,
+  endLanguageLearningThunk
 } from "../thunks/app-thunks";
 
 const appReducer = createSlice(
@@ -31,7 +33,8 @@ const appReducer = createSlice(
       feedbackList: [],
       average_rating: 0,
       stats: [],
-      learning_languages: []
+      learning_languages: [],
+      redirectToHome: false
     },
     reducers: {
       setLanguage(state, action) {
@@ -53,6 +56,14 @@ const appReducer = createSlice(
       },
       [createPostForLanguageThunk.fulfilled]: (state, action) => {
         state.posts.push(action.payload)
+      },
+      [endLanguageLearningThunk.fulfilled]: (state, action) => {
+        state.redirectToHome = true;
+      },
+      [deletePostForUserThunk.fulfilled]: (state, action) => {
+        let posts = state.posts;
+        posts = posts.filter(item => item.post_id.toString() !== action.payload.toString());
+        state.posts = [...posts];
       },
       [getAllCardsForDeckThunk.fulfilled]: (state, action) => {
         state.cards = action.payload

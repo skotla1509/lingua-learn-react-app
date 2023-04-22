@@ -14,7 +14,9 @@ import {
   getAverageFeedbackForDeck,
   addLanguageLearning,
   getUserStatistics,
-  getUserLanguages
+  getUserLanguages,
+  deletePostForUser,
+  endLanguageLearning
 } from "../services/app-services";
 
 export const getUserStatisticsThunk = createAsyncThunk(
@@ -37,6 +39,11 @@ export const addLanguageLearningThunk = createAsyncThunk(
 	async (requestBody) => await addLanguageLearning(requestBody)
 )
 
+export const endLanguageLearningThunk = createAsyncThunk(
+	'endLanguageLearning',
+	async (requestBody) => await endLanguageLearning(requestBody)
+)
+
 export const getAllDecksForLanguageThunk = createAsyncThunk(
 	'getAllDecksForLanguage',
 	async (language_id) => await getAllDecksForLanguage(language_id)
@@ -50,6 +57,11 @@ export const getAllPostsForLanguagesThunk = createAsyncThunk(
 export const createPostForLanguageThunk = createAsyncThunk(
 	'createPostForLanguage',
 	async (requestBody) => await createPostForLanguage(requestBody)
+)
+
+export const deletePostForUserThunk = createAsyncThunk(
+	'deletePostForUser',
+	async (post_id) => await deletePostForUser(post_id)
 )
 
 export const getAllCardsForDeckThunk = createAsyncThunk(

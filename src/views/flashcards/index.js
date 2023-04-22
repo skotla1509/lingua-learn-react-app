@@ -48,6 +48,7 @@ const Flashcard = () => {
 			comment: feedbackComment
 		}
 		dispatch(addNewFeedbackForDeckThunk(requestBody))
+		dispatch(getAverageFeedbackForDeckThunk(selected_deck.deck_id))
 	}
 
 	return (
@@ -91,7 +92,7 @@ const Flashcard = () => {
 				</div>
 				<div className='row m-4 justify-content-center'>
 					<h5>Feedback</h5>
-					<div className='col-6 p-4 border rounded'>
+					<div className='col p-4 border rounded'>
 						{
 							currentUserFeedback &&
 							<>
@@ -136,7 +137,7 @@ const Flashcard = () => {
 							</>
 						}
 					</div>
-					<div className='col-6 p-4 border rounded'>
+					<div className='col ms-1 p-4 border rounded'>
 						<div className='row'>
 							<h5>Average Ratings: {average_rating ? average_rating : "No ratings yet"}</h5>
 							<ul className="list-group">

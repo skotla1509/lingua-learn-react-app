@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { addLanguageLearningThunk, getAllLanguagesThunk, getUserLanguagesThunk, getUserStatisticsThunk } from '../../thunks/app-thunks';
+import { useEffect, useState } from "react";
+import { addLanguageLearningThunk, endLanguageLearningThunk, getAllLanguagesThunk, getUserLanguagesThunk, getUserStatisticsThunk } from '../../thunks/app-thunks';
 import { setLanguage } from '../../reducers/app-reducer';
 import { Row, Col, Card, Badge } from 'react-bootstrap';
 import myImage from '../../badge.jpg';
@@ -13,13 +13,14 @@ const Home = () => {
   const navigate = useNavigate();
   const { languages, stats, learning_languages } = useSelector((state) => state.app);
   const { currentUser } = useSelector((state) => state.users);
+  const [refresh, setRefresh] = useState(false);
   useEffect(() => {
     if (currentUser) {
       dispatch(getAllLanguagesThunk());
       dispatch(getUserStatisticsThunk(currentUser.user_id));
       dispatch(getUserLanguagesThunk(currentUser.user_id));
     }
-  }, []);
+  }, [refresh]);
 
   const onLanguageClick = (language) => {
     dispatch(setLanguage(language))
@@ -27,8 +28,15 @@ const Home = () => {
     navigate("/learn/language");
   }
 
+  const onClearLanguageClick = (language) => {
+    setRefresh(true);
+    dispatch(endLanguageLearningThunk({ language_id: language.language_id, user_id: currentUser.user_id }))
+    // navigate("/");
+  }
+
   return (
     <>
+      {refresh && <div className='d-none'>OK</div>}
       {currentUser &&
         <>
           <h1 className='m-4 container'>Hi {currentUser.first_name}, welcome to Lingua-Learn</h1>
@@ -41,7 +49,7 @@ const Home = () => {
                     <>
                       <div className='list-group-item list-group-item-action'>
                         <div className='row'>
-                          <div className='col-8'>
+                          <div className='col-6'>
                             <span
                               id={`languages-${index}`}
                               className="">
@@ -50,8 +58,15 @@ const Home = () => {
                               }
                             </span>
                           </div>
-                          <div className='col-4'>
-                            <button type="button" className="btn btn-primary float-end" onClick={() => onLanguageClick(language)}>Start Learning</button>
+                          <div className='col-6'>
+                            {
+                            learning_languages.find(item => item.name === language.name) ?
+                            <>
+                              <button type="button" className="ms-2 btn btn-primary float-end" onClick={() => onClearLanguageClick(language)}>Clear</button>
+                              <button type="button" className="btn btn-primary float-end" onClick={() => onLanguageClick(language)}>Continue</button>
+                            </>
+                            : <button type="button" className="btn btn-primary float-end" onClick={() => onLanguageClick(language)}>Start Learning</button> 
+                            }
                           </div>
                         </div>
                       </div>
