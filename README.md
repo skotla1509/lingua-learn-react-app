@@ -1,70 +1,109 @@
-# Getting Started with Create React App
+# Language Learning App - React Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+The React frontend serves as the client for the Language Learning App. It connects directly to the Node.js server, which handles interactions with the MySQL database. This app provides a seamless user experience for exploring and learning languages through flashcards, practice exercises, and more.
 
-## Available Scripts
+For detailed information about the app's features, refer to the **DESIGN-README.md**.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Table of Contents
+1. [Technologies Used](#technologies-used)
+2. [Folder Structure](#folder-structure)
+3. [Application Routing](#application-routing)
+4. [Setting Up the Project](#setting-up-the-project)
+5. [Connecting to the Node Server](#connecting-to-the-node-server)
+6. [Running the App Locally](#running-the-app-locally)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technologies Used
+The React frontend leverages the following technologies:
+- **React**: For building the user interface.
+- **Redux**: For efficient state management.
+- **Bootstrap**: For responsive design and styling.
+- **Axios**: For handling HTTP requests to the Node.js server.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Folder Structure
 
-### `npm run build`
+The project follows a modular folder structure for clarity and maintainability.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### High-Level Folder Structure:
+```
+src/
+├── reducers/       # Handles state updates for each feature
+├── services/       # Contains API service functions for Node.js server interaction
+├── thunks/         # Middleware logic for asynchronous actions
+├── views/          # Contains components for each feature/screen
+├── App.js          # Entry point for the React application
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Detailed Example: `reducers/`
+The `reducers/` folder manages state updates. Here’s an example of its organization:
+```
+src/reducers/
+├── app-reducer.js     # Handles application-level state updates
+└── users-reducer.js   # Manages state related to users (e.g., login, profile)
+```
+> Other folders, such as `thunks/`, `services/`, and `views/`, follow a similar structure, with one file for each feature.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Application Routing
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The app uses React Router for navigation between different features. Here are the main routes:
+```jsx
+<Route index element={<Home/>} />
+<Route path="/home" element={<Home/>} />
+<Route path="/login" element={<Login/>} />
+<Route path="/register" element={<Register/>} />
+<Route path="/learn/language" element={<Deck/>} />
+<Route path="/learn/language/cards" element={<Flashcard/>} />
+<Route path="/learn/language/practice" element={<Practice/>} />
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Setting Up the Project
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Step 1: Clone the Repository
+Clone the React server repository to your local machine:
 
-## Learn More
+### Step 2: Install Dependencies
+Install the required Node.js packages:
+```bash
+npm install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Step 3: Environment Variables
+Ensure the React app knows the Node.js server's base URL. Create a `.env` file in the project root and set the following:
+```env
+REACT_APP_API_BASE_URL=http://localhost:1000
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## Connecting to the Node Server
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Step 1: Run the Node Server
+Ensure the Node.js server is running. Refer to the **Node Server README** for setup instructions.
 
-### Analyzing the Bundle Size
+### Step 2: Test the Connection
+The React app will make API requests to the Node.js server using the `REACT_APP_API_BASE_URL`. Confirm that the Node.js server is accessible at the specified URL.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## Running the App Locally
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Step 1: Start the Development Server
+Start the React app in development mode:
+```bash
+npm start
+```
 
-### Advanced Configuration
+### Step 2: Open the App in a Browser
+Visit `http://localhost:3000` in your browser. The app should load, and you can begin exploring its features.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
